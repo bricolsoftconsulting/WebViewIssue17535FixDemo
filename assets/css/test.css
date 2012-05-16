@@ -1,0 +1,8 @@
+body
+{
+	margin : 4px;
+	color : #FFFFFF;
+	background-image: url('../gfx/background.png');
+}
+a:link { color: #c00; }
+a:visited { color: #ccc; }

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Page1</title>
+		<link href="css/test.css" rel="stylesheet" type="text/css">
+	</head>
+	<body>
+		<p>Fix for <a href="http://code.google.com/p/android/issues/detail?id=17535" target="_blank">Android webview issue 17535</a>: 
+			 Loading Android asset links containing parameters (e.g. file:///android_asset/test.html?test=test) or anchors (e.g. file:///android_asset/test.html#test) incorrectly causes a page not found error in Honeycomb and Ice Cream Sandwich.
+    </p>
+    <p>Use the links below to confirm that the webview fix works correctly. You should see no 404 errors when using the anchor and param links.</p>
+    <p>You are currently on Page1.</p>
+		<p><a href="file:///android_asset/page2.html">Load Page2</a></p>
+		<p><a href="file:///android_asset/page2.html#test">Load Page2 w/ anchors</a></p>
+		<p><a href="file:///android_asset/page2.html?test=test">Load Page2 w/ params</a></p>
+	  </p>
+	</body>
+</html>
