@@ -8,7 +8,7 @@ https://github.com/bricolsoftconsulting/WebViewIssue17535Fix
 
 Usage
 -----
-Download a copy of this code and open the project in Eclipse. Run the app on any Honeycomb or ICS device and click the anchors and parameters links. All pages should load successfully with no page-not-found 404 errors.
+Download a copy of this code and open the project in Eclipse (or alternatively, download the APK from the release folder). Run the app on any Android 3.0+ or Android 4.0 device and click the anchors and parameters links. All pages should load successfully with no page-not-found 404 errors.
 
 Copyright
 ---------

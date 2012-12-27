@@ -26,6 +26,7 @@ package com.bricolsoftconsulting.demo;
 import com.bricolsoftconsulting.webview.WebViewClientEx;
 import com.bricolsoftconsulting.webview.WebViewEx;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -44,9 +45,6 @@ import android.webkit.WebView;
 
 public class WebViewActivity extends Activity
 {
-	// Constants
-	private static final boolean DEBUG = false;
-
 	// Members
 	private WebViewEx mWebView;
 
@@ -59,13 +57,14 @@ public class WebViewActivity extends Activity
 		initWebView(savedInstanceState);
 	}
 
+	@SuppressLint({ "SetJavaScriptEnabled", "NewApi" })
 	public void initWebView(Bundle savedInstanceState)
 	{
 		// Find the webview
 		mWebView = (WebViewEx)WebViewActivity.this.findViewById(R.id.webview);
         
 		// Intercept URLs
-		mWebView.setWebViewClient(new WebViewClientEx(WebViewActivity.this, DEBUG)
+		mWebView.setWebViewClient(new WebViewClientEx(WebViewActivity.this)
 		{
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url)
@@ -89,6 +88,7 @@ public class WebViewActivity extends Activity
 				return redirected;
 			}
 
+			@SuppressLint("NewApi")
 			@Override
 			public WebResourceResponse shouldInterceptRequest(WebView view, String url)
 			{
@@ -194,10 +194,6 @@ public class WebViewActivity extends Activity
 		mWebView.clearCache(true);
 		WebSettings webSettings = mWebView.getSettings();
 		webSettings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-
-		// Set viewing area
-		webSettings.setUseWideViewPort(true);
-		webSettings.setLoadWithOverviewMode(true);
 
 		// Accept cookies
 		CookieSyncManager.createInstance(WebViewActivity.this); 
