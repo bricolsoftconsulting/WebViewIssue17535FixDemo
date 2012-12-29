@@ -23,9 +23,6 @@ Copyright 2012 Bricolsoft Consulting
 
 package com.bricolsoftconsulting.demo;
 
-import com.bricolsoftconsulting.webview.WebViewClientEx;
-import com.bricolsoftconsulting.webview.WebViewEx;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -33,6 +30,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
@@ -43,8 +41,15 @@ import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 
+import com.bricolsoftconsulting.webview.WebViewClientEx;
+import com.bricolsoftconsulting.webview.WebViewEx;
+
+@SuppressLint({ "NewApi", "SetJavaScriptEnabled" })
 public class WebViewActivity extends Activity
 {
+	// Constants
+	private static final String TAG = "WebViewActivity";
+	
 	// Members
 	private WebViewEx mWebView;
 
@@ -57,7 +62,6 @@ public class WebViewActivity extends Activity
 		initWebView(savedInstanceState);
 	}
 
-	@SuppressLint({ "SetJavaScriptEnabled", "NewApi" })
 	public void initWebView(Bundle savedInstanceState)
 	{
 		// Find the webview
@@ -67,42 +71,42 @@ public class WebViewActivity extends Activity
 		mWebView.setWebViewClient(new WebViewClientEx(WebViewActivity.this)
 		{
 			@Override
-			public boolean shouldOverrideUrlLoading(WebView view, String url)
+			public boolean shouldOverrideUrlLoadingEx(WebView view, String url)
 			{
 				// Special handling for shouldOverrideUrlLoading
-				// Make sure that we call the base class implementation and do not interfere
-				// with the base class redirects
-				boolean redirected = super.shouldOverrideUrlLoading(view, url);
-
-				// Do your own redirects here and set the return flag
-				if (!redirected)
+				// Override shouldOverrideUrlLoadingEx instead of shouldOverrideUrlLoading
+				
+				// Log url and non-cache url
+				Log.d(TAG, "WebViewClientEx.shouldOverrideUrlLoadingEx: URL is " + url);
+				if (view instanceof WebViewEx && ((WebViewEx)view).isCacheUrl(url))
 				{
-					// Redirect HTTP and HTTPS urls to the external browser
-					if (url != null && URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url))
-					{
-						view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-						redirected = true;
-					}
+					Log.d(TAG, "WebViewClientEx.shouldOverrideUrlLoadingEx: Original non-cache URL was " + ((WebViewEx)view).getNonCacheUrl(url));
+				}
+				
+				// Redirect HTTP and HTTPS urls to the external browser
+				if (url != null && URLUtil.isHttpUrl(url) || URLUtil.isHttpsUrl(url))
+				{
+					view.getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+					return true;
 				}
 
-				return redirected;
+				return false;
 			}
 
-			@SuppressLint("NewApi")
 			@Override
-			public WebResourceResponse shouldInterceptRequest(WebView view, String url)
+			public WebResourceResponse shouldInterceptRequestEx(WebView view, String url)
 			{
 				// Special handling for shouldInterceptRequest
-				// Make sure that we call the base class implementation
-				WebResourceResponse wrr = super.shouldInterceptRequest(view, url);
+				// Override shouldInterceptRequestEx instead of shouldInterceptRequest
 
-				// Do your own resource replacements here
-				if (wrr == null)
+				// Log url and non-cache url
+				Log.d(TAG, "WebViewClientEx.shouldInterceptRequestEx: URL is " + url);
+				if (view instanceof WebViewEx)
 				{
-					// wrr = new WebResourceResponse...
+					Log.d(TAG, "WebViewClientEx.shouldInterceptRequestEx: Original non-cache URL was " + ((WebViewEx)view).getNonCacheUrl(url));
 				}
-
-				return wrr;
+				
+				return null;
 			}
 		});
  

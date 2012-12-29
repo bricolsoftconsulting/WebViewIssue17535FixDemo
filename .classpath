@@ -4,6 +4,7 @@
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.ANDROID_FRAMEWORK"/>
 	<classpathentry kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
-	<classpathentry kind="lib" path="libs/WebViewIssue17535Fix.jar" />
+	<classpathentry kind="lib" path="libs/WebViewIssue17535Fix.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/Program Files (x86)/Android/android-sdk/tools/support/annotations.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
